@@ -28,6 +28,7 @@ public class UsuarioMapper {
         return mapper.map(usuario, UsuarioResponseDto.class);
     }
 
+    // Atual
    /* public static UsuarioResponseDto toDto(Usuario usuario) {
         String role = usuario.getRole().name().substring("ROLE_".length());
         ModelMapper mapperMain = new ModelMapper();
