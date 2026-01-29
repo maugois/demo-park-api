@@ -3,8 +3,14 @@ package com.mballem.demo_park_api.web.controller;
 import com.mballem.demo_park_api.jwt.JwtToken;
 import com.mballem.demo_park_api.jwt.JwtUserDetailsService;
 import com.mballem.demo_park_api.web.dto.UsuarioLoginDto;
+import com.mballem.demo_park_api.web.dto.UsuarioResponseDto;
 import com.mballem.demo_park_api.web.exception.ErrorMessage;
 import jakarta.servlet.http.HttpServletRequest;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +21,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Autenticação", description = "Recurso para proceder com a autenticação na API")
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -24,6 +31,18 @@ public class AutenticacaoController {
     private final JwtUserDetailsService detailsService;
     private final AuthenticationManager authenticationManager;
 
+    @Operation(
+            summary = "Autenticar na API",
+            description = "Recurso de autenticação na API",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Autenticação realizada com sucesso e retorno de um bearer token",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = UsuarioResponseDto.class))),
+                    @ApiResponse(responseCode = "400", description = "Credenciais inválidas",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
+                    @ApiResponse(responseCode = "422", description = "Campo(s) Inválido(s)",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
+            }
+    )
     @PostMapping("/auth")
     public ResponseEntity<?> autenticar(@RequestBody @Valid UsuarioLoginDto dto, HttpServletRequest request) {
         log.info("Processo de autenticação pelo login {}", dto.getUsername());
