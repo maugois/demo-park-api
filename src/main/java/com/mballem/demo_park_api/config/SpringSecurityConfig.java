@@ -1,7 +1,7 @@
 package com.mballem.demo_park_api.config;
 
+import com.mballem.demo_park_api.jwt.JwtAuthenticationEntryPoint;
 import com.mballem.demo_park_api.jwt.JwtAuthorizationFilter;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -30,6 +30,15 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/v1/usuarios").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth").permitAll()
+                        .requestMatchers(
+                                "/api/v1/usuarios",
+                                 "/api/v1/auth",
+                                "/docs-park.html",
+                                "/docs-park/**",
+                               "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/webjars/**"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->
@@ -38,7 +47,7 @@ public class SpringSecurityConfig {
                 .addFilterBefore(
                         jwtAuthorizationFilter(),
                         UsernamePasswordAuthenticationFilter.class
-                )
+                ).exceptionHandling(ex -> ex.authenticationEntryPoint(new JwtAuthenticationEntryPoint()))
                 .build();
     }
 
