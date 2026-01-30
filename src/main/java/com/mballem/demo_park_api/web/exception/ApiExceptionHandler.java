@@ -1,9 +1,6 @@
 package com.mballem.demo_park_api.web.exception;
 
-import com.mballem.demo_park_api.exception.CpfUniqueViolationException;
-import com.mballem.demo_park_api.exception.EntityNotFoundException;
-import com.mballem.demo_park_api.exception.PasswordIncorrectException;
-import com.mballem.demo_park_api.exception.UsernameUniqueViolationException;
+import com.mballem.demo_park_api.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -67,7 +64,7 @@ public class ApiExceptionHandler {
                 );
     }
 
-    @ExceptionHandler({UsernameUniqueViolationException.class, CpfUniqueViolationException.class})
+    @ExceptionHandler({UsernameUniqueViolationException.class, CpfUniqueViolationException.class, CodigoUniqueViolationException.class})
     public ResponseEntity<ErrorMessage> uniqueViolationException(
             RuntimeException ex,
             HttpServletRequest request) {
