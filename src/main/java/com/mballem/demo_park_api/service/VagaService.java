@@ -23,21 +23,22 @@ public class VagaService {
         try {
             return vagaRepository.save(vaga);
         } catch (DataIntegrityViolationException ex) {
-            throw new CodigoUniqueViolationException(String.format("Vaga com código '%s' já cadastrada", vaga.getCodigo()));
+            throw new CodigoUniqueViolationException("Vaga", vaga.getCodigo());
         }
     }
 
     @Transactional(readOnly = true)
     public Vaga buscarPorCodigo(String codigo) {
         return vagaRepository.findByCodigo(codigo).orElseThrow(
-                () -> new EntityNotFoundException(String.format("Vaga com sódigo '%s' não foi encontrada", codigo))
+                () -> new EntityNotFoundException("Vaga", codigo)
         );
     }
 
     @Transactional(readOnly = true)
     public Vaga buscarPorVagaLivre() {
         return vagaRepository.findFirstByStatus(LIVRE).orElseThrow(
-                () -> new VagaDisponivelException("Não foi possível achar uma vaga")
+                () -> new VagaDisponivelException()
         );
     }
 }
+

@@ -4,9 +4,10 @@ import lombok.Getter;
 
 @Getter
 public class CpfUniqueViolationException extends RuntimeException {
-    private String cpf;
 
+    private String cpf;
     public CpfUniqueViolationException(String cpf) {
         this.cpf = cpf;
     }
 }
+
