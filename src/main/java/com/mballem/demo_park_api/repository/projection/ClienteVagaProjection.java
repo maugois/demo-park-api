@@ -2,24 +2,30 @@ package com.mballem.demo_park_api.repository.projection;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public interface ClienteVagaProjection {
+public class ClienteVagaProjection {
 
-    String getPlaca();
-    String getMarca();
-    String getModelo();
-    String getCor();
-    String getClienteCpf();
-    String getRecibo();
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-    LocalDateTime getDataEntrada();
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-    LocalDateTime getDataSaida();
-    String getVagaCodigo();
-    BigDecimal getValor();
-    BigDecimal getDesconto();
+    private String placa;
+    private String marca;
+    private String modelo;
+    private String cor;
+    private String clienteCpf;
+    private String recibo;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime dataEntrada;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime dataSaida;
+    private String vagaCodigo;
+    private BigDecimal valor;
+    private BigDecimal desconto;
+
 }
